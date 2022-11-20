@@ -7,7 +7,7 @@ A multi-purpose Discord bot built using Python-3.11. This repository also hosts 
 - [x]  Set up a basic implementation of the bot
 - [ ]  Add meta component
 - [ ]  Add statistics component
-- [ ]  Add music component
+- [X]  Add music component
 - [ ]  Add moderation/admin component
 - [ ]  Add games component
 - [ ]  Add economics component
