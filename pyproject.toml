@@ -26,6 +26,9 @@ mypy = "^0.991"
 nox = "^2022.8.7"
 safety = "^2.3.1"
 
+[tool.black]
+line-length = 79
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
