@@ -1,0 +1,9 @@
+{
+    "name": "zeusbot",
+    "version": "0.1.0",
+    "description": "Website for the Discord bot ZeusBot",
+    "main": "index.js",
+    "repository": "https://github.com/Time-Wizard-314159/ZeusBot.git",
+    "author": "Sai Kumar <ksai44576@gmail.com>",
+    "license": "MIT"
+}
