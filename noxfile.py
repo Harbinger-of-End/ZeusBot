@@ -69,5 +69,5 @@ def clean(s: Session) -> None:
     s.run("python", "scripts/clean.py")
 
 
-if python:
+if not python:
     session(python=python)(clean)
