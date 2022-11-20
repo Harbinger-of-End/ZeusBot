@@ -1,0 +1,2 @@
+[bandit]
+exclude = ./.git/,./node_modules/,./venv/,./.venv/,./.mypy_cache/
