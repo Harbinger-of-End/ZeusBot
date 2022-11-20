@@ -5,5 +5,10 @@
     "main": "index.js",
     "repository": "https://github.com/Time-Wizard-314159/ZeusBot.git",
     "author": "Sai Kumar <ksai44576@gmail.com>",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "next": "^13.0.4",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
 }
