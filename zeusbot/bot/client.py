@@ -13,7 +13,7 @@ from hikari import (
 )
 from tanjun import Client
 
-from zeusbot.utils import Config, MusicUtility
+from zeusbot.utils import Config, HikariUtility, MusicUtility
 
 if TYPE_CHECKING:
     from typing import Any, Callable, Coroutine, Dict, Mapping, Self, Type
@@ -44,6 +44,7 @@ class ZeusClient(Client):
         "session",
     )
     music = MusicUtility()
+    hikari = HikariUtility
     logger = getLogger(__name__)
 
     def __init__(

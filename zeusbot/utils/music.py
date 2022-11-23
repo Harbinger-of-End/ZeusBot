@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from hikari import Snowflake
 from lavaplayer import Lavalink, PlayList, TrackLoadFailed  # type: ignore
 
-from . import Config
+from . import Config, HikariUtility
 
 if TYPE_CHECKING:
     from typing import Final
@@ -176,6 +176,108 @@ class MusicUtility:
         await ctx.client.shards.update_voice_state(ctx.guild_id, None)
         await self._lavalink.wait_for_remove_connection(ctx.guild_id)
         await ctx.respond("Disconnected")
+
+    async def skip(self, ctx: Context) -> None:
+        """Skip to the next song."""
+
+        if ctx.guild_id is None:
+            return
+
+        if not await self._lavalink.get_guild_node(ctx.guild_id):
+            await ctx.respond("Node not available, so I can't skip.")
+            return
+
+        await self._lavalink.skip(ctx.guild_id)
+
+    async def now_playing(self, ctx: Context) -> None:
+        """Display the currently playing song."""
+
+        if ctx.guild_id is None:
+            return
+
+        if (
+            not (node := await self._lavalink.get_guild_node(ctx.guild_id))
+            or not node.queue
+        ):
+            return
+
+        fields = [
+            ("Title", f"[{node.queue[0].title}]({node.queue[0].uri})", True),
+            (
+                "Position",
+                f"{node.queue[0].position}/{node.queue[0].length}",
+                True,
+            ),
+        ]
+
+        embed = HikariUtility.build_embed(
+            title="Now playing",
+            fields=fields,
+        )
+
+        await ctx.respond(embed=embed)
+
+    async def shuffle(self, ctx: Context) -> None:
+        """Shuffle the queue."""
+
+        if ctx.guild_id is None:
+            return
+
+        await self._lavalink.shuffle(ctx.guild_id)  # type: ignore
+        await ctx.respond("Queue shuffled.")
+
+    async def repeat(self, ctx: Context, status: bool) -> None:
+        """Repeat song."""
+
+        if ctx.guild_id is None:
+            return
+
+        await self._lavalink.repeat(ctx.guild_id, status)
+        await ctx.respond("Repeating every song.")
+
+    async def volume(self, ctx: Context, volume: int) -> None:
+        """Set the volume."""
+
+        if ctx.guild_id is None:
+            return
+
+        await self._lavalink.volume(ctx.guild_id, volume)
+        await ctx.respond(f"Set volume to {volume}")
+
+    async def queue(self, ctx: Context) -> None:
+        """Show the queue."""
+
+        if ctx.guild_id is None:
+            return
+
+        if (
+            not (node := await self._lavalink.get_guild_node(ctx.guild_id))
+            or not node.queue
+        ):
+            await ctx.respond("Error.")
+            return
+
+        embed = HikariUtility.build_embed(
+            title="Queue",
+            description="\n".join(
+                f"{i + 1}. {track.title}"
+                for i, track in enumerate(node.queue[:10])
+            ),
+            footer=(
+                f"Requested by: {ctx.author.username}",
+                HikariUtility.get_avatar_of_member(ctx.author),
+            ),
+        )
+        await ctx.respond(embed=embed)
+
+    async def seek(self, ctx: Context, position: int) -> None:
+        """Set the position of the track."""
+
+        if ctx.guild_id is None:
+            return
+
+        await self._lavalink.seek(ctx.guild_id, position)
+        await ctx.respond("Seeked.")
 
 
 __all__: Final = ("MusicUtility",)
