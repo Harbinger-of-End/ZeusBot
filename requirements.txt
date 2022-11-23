@@ -1,0 +1,8 @@
+APScheduler==3.9.1.post1
+asycpg==0.27.0
+fastapi==0.87.0
+hikari[speedups]==2.0.0.dev112
+hikari-tanjun==2.9.0a1
+lavaplayer==1.0.10a0
+uvicorn==0.19.0
+uvloop==0.17.0; os_name != "nt"
