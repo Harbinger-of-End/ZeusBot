@@ -7,6 +7,8 @@ from tanjun import (
     injected,
     with_channel_slash_option,
     with_str_slash_option,
+    with_int_slash_option,
+    with_bool_slash_option,
 )
 from tanjun.abc import SlashContext
 
@@ -63,3 +65,79 @@ async def stop_slash(
     client: ZeusClient = injected(type=ZeusClient),
 ) -> None:
     await client.music.stop(ctx)
+
+
+@music_component.with_slash_command
+@as_slash_command("skip", "Skip the song")
+async def skip_slash(
+    ctx: SlashContext,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.skip(ctx)
+
+
+@music_component.with_slash_command
+@as_slash_command("now-playing", "Display the currently playing song")
+async def now_playing_slash(
+    ctx: SlashContext,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.now_playing(ctx)
+
+
+@music_component.with_slash_command
+@as_slash_command("shuffle", "Shuffle the queue.")
+async def shuffle_slash(
+    ctx: SlashContext,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.shuffle(ctx)
+
+
+@music_component.with_slash_command
+@with_bool_slash_option("status", "Status to set repeat mode")
+@as_slash_command("repeat", "Set repeat mode")
+async def repeat_slash(
+    ctx: SlashContext,
+    status: bool,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.repeat(ctx, status)
+
+
+@music_component.with_slash_command
+@with_int_slash_option("level", "Level of volume to set")
+@as_slash_command("volume", "Set the volume")
+async def volume_slash(
+    ctx: SlashContext,
+    level: int,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.volume(ctx, level)
+
+
+@music_component.with_slash_command
+@as_slash_command("queue", "Display the queue")
+async def queue_slash(
+    ctx: SlashContext,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.queue(ctx)
+
+
+@music_component.with_slash_command
+@with_int_slash_option("position", "The position to seek to")
+@as_slash_command("seek", "Seek the current track")
+async def seek_slash(
+    ctx: SlashContext,
+    position: int,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.seek(ctx, position)
