@@ -141,3 +141,13 @@ async def seek_slash(
     client: ZeusClient = injected(type=ZeusClient),
 ) -> None:
     await client.music.seek(ctx, position)
+
+
+@music_component.with_slash_command
+@as_slash_command("pause", "Pause the playback.")
+async def pause_slash(
+    ctx: SlashContext,
+    *,
+    client: ZeusClient = injected(type=ZeusClient),
+) -> None:
+    await client.music.pause(ctx)

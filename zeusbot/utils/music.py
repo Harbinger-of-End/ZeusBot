@@ -126,11 +126,8 @@ class MusicUtility:
             return await self.play(ctx, song)
 
         if song is None:
-            if node := await self._lavalink.get_guild_node(ctx.guild_id):
-                node.is_pause = False
-                return
-
-            return await self.join_voice(ctx)
+            await self._lavalink.pause(ctx.guild_id, False)
+            return
 
         result = await self._lavalink.auto_search_tracks(song)
 
@@ -278,6 +275,14 @@ class MusicUtility:
 
         await self._lavalink.seek(ctx.guild_id, position)
         await ctx.respond("Seeked.")
+
+    async def pause(self, ctx: Context) -> None:
+        """Pasuse the playback."""
+
+        if ctx.guild_id is None:
+            return
+
+        await self._lavalink.pause(ctx.guild_id, True)
 
 
 __all__: Final = ("MusicUtility",)
