@@ -137,6 +137,7 @@ class _MetaConfig(type):
             else False
             if x == "False"
             else None,
+            "int": int,
         }
 
         return _map[(v := value.split(":", 1))[0]](v[1])
