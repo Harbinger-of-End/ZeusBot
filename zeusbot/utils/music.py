@@ -123,7 +123,7 @@ class MusicUtility:
             ctx.client.shards.get_me().id,  # type: ignore
         ):
             await self.join_voice(ctx)
-            return await self.play(ctx, song)
+            return
 
         if song is None:
             await self._lavalink.pause(ctx.guild_id, False)
